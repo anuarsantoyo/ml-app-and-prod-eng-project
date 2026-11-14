@@ -18,7 +18,7 @@ _NEIGHBORHOODS = []
 def _load():
     global _ART, _NEIGHBORHOODS
     if _ART is None:
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "house_price_model.joblib")
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "house_price_model.joblib")
         _ART = joblib.load(path)
         _NEIGHBORHOODS = _extract_neighborhoods(_ART)
     return _ART

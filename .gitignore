@@ -2,6 +2,7 @@
 __pycache__/
 *.pyc
 .env
-rag/chroma_db/
-rag/cache.db
+data/*
+!data/.gitkeep
+!data/make_db.py
 .DS_Store

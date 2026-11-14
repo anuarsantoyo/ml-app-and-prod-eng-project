@@ -11,7 +11,7 @@ from rag.embed import embed
 CHUNK_SIZE = 600   # words per chunk
 CHUNK_OVERLAP = 100
 DOCS_TXT = Path(__file__).resolve().parent / "docs" / "txt"
-CHROMA_DIR = Path(__file__).resolve().parent / "chroma_db"
+CHROMA_DIR = Path(__file__).resolve().parent.parent / "data" / "chroma_db"
 COLLECTION = "housing_knowledge"
 BATCH = 64
 

@@ -143,7 +143,7 @@ def main():
         "trained_on": "ames_housing",
         "target": "sale_price",
     }
-    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "house_price_model.joblib")
+    out = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "house_price_model.joblib")
     joblib.dump(artifact, out)
     print(f"\nSaved {out}")
     print(f"  metrics: RMSE ${best['rmse']:,.0f}, MAE ${best['mae']:,.0f}, R2 {best['r2']:.4f}")

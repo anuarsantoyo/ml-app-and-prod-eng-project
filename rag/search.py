@@ -14,8 +14,8 @@ import numpy as np
 
 from rag.embed import embed
 
-CHROMA_DIR = Path(__file__).resolve().parent / "chroma_db"
-CACHE_DB = Path(__file__).resolve().parent / "cache.db"
+CHROMA_DIR = Path(__file__).resolve().parent.parent / "data" / "chroma_db"
+CACHE_DB = Path(__file__).resolve().parent.parent / "data" / "cache.db"
 COLLECTION = "housing_knowledge"
 TOP_K = 4
 CACHE_THRESHOLD = 0.92  # cosine similarity needed for a cache hit
