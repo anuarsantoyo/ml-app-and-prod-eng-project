@@ -90,6 +90,8 @@ Requirements:
 
 This is the heart of the project: an LLM that reasons, calls a tool, observes the result, and repeats until it can answer.
 
+- The agent has exactly two tools: `predict_price` (calls your trained model) and
+  `search_knowledge` (calls your RAG). No other tools.
 - Use OpenRouter for the LLM (chat model set in .env, e.g. `google/gemini-2.5-flash`).
 - Act as an MCP client: connect to your MCP server over streamable HTTP, initialize,
   list its tools, and convert them into the tool schemas you pass to the LLM.
