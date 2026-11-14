@@ -1,0 +1,21 @@
+# Server + MCP + agent
+fastapi
+uvicorn[standard]
+mcp[cli]==2.3.0
+openai
+python-dotenv
+
+# RAG / vector store
+chromadb
+pypdf
+fastembed
+
+# ML (model serving)
+scikit-learn
+pandas
+numpy
+joblib
+
+# Client
+streamlit
+httpx
