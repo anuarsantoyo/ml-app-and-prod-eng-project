@@ -179,7 +179,24 @@ One SQLite database and three PDFs. Everything else you build.
 One SQLite database holds everything relational: `houses` (training), `users` + `usage`
 (auth/credits). The RAG vectors live in Chroma.
 
-## 6. Setup and run
+## 6. Suggested build order
+
+Build in this order — each step is testable on its own before you move on:
+
+1. The ML model (3.1) — first, because it fixes the 12 features everything else depends on.
+2. The RAG search (3.2) — independent of the model; do it second (or in parallel).
+3. The MCP server (3.3) — wrap 1 and 2 into your two tools.
+4. The FastAPI service (3.5) — auth/rate-limit/credits first (the Class 1 pattern), then
+   the agent loop (3.4) that connects to your MCP server.
+5. The Streamlit client (3.6) — last, once the API works.
+
+Dependency chain: ML + RAG -> MCP -> FastAPI (agent) -> Streamlit. The model is the
+keystone — build it first and the rest falls into place.
+
+Verify as you go: predict a known house, query a tax question, call each tool, curl the
+endpoints, then click the UI.
+
+## 7. Setup and run
 
 Prerequisites: Python 3.11+, and an OpenRouter API key.
 
@@ -203,7 +220,7 @@ Run (three terminals, from the project root):
 
 (No database-creation step — the provided `app.db` already has the three tables.)
 
-## 7. Acceptance criteria
+## 8. Acceptance criteria
 
 Your project is done when every one of these works:
 
