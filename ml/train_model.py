@@ -25,7 +25,7 @@ RANDOM_STATE = 42
 TEST_SIZE = 0.2
 
 
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "ames.db")
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "app.db")
 
 
 def load_ames():

@@ -4,5 +4,4 @@ __pycache__/
 .env
 rag/chroma_db/
 rag/cache.db
-server/app.db
 .DS_Store

@@ -14,7 +14,7 @@ info, call the price model, or search the knowledge base.
     server/   FastAPI (auth, rate limit, credits) + agent loop + MCP server
     ml/       model training + serving (joblib)
     rag/      document ingestion, Chroma index, semantic search + cache
-    data/     the Ames housing dataset as SQLite
+    data/     the single SQLite DB (houses + users + usage)
 
 The agent loop (`server/agent.py`) is an MCP client: it connects to the
 standalone MCP server (`server/mcp_server.py`) over streamable HTTP, lists its
@@ -31,14 +31,13 @@ tools, and lets the LLM call them — reason -> act -> observe, repeated.
 
 ## Data preparation (run once, in order)
 
-    .venv/bin/python data/make_db.py          # build data/ames.db (SQLite)
+    .venv/bin/python data/make_db.py          # build data/app.db (houses + users + usage)
     .venv/bin/python ml/train_model.py        # train + save house_price_model.joblib
     .venv/bin/python -m rag.download_docs     # fetch the homebuying PDFs
     .venv/bin/python -m rag.build_index       # chunk + embed + index in Chroma
 
 ## Run (three processes, from the repo root)
 
-    .venv/bin/python -m server.db                          # create the app DB
     .venv/bin/uvicorn server.mcp_server:app --port 8001    # MCP server (tools)
     .venv/bin/uvicorn server.app:app --port 8000           # FastAPI (auth + agent)
     .venv/bin/streamlit run client/app.py                  # the UI

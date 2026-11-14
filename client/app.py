@@ -63,7 +63,6 @@ with st.sidebar:
             u = httpx.get(f"{API}/v1/usage", headers=headers(), timeout=30).json()
             st.metric("Credits", u.get("credits"))
             st.metric("Used this month", u.get("monthly_used"))
-            st.progress(min(1.0, u.get("monthly_used", 0) / max(1, u.get("monthly_allowance", 1))))
         except Exception as e:
             st.warning(f"Server offline: {e}")
         with st.form("topup"):

@@ -77,17 +77,6 @@ def rate_limit(caller: dict = Depends(require_key)) -> dict:
 # Billing: monthly quota (402) then prepaid credits (402), atomic
 # ---------------------------------------------------------------------------
 def spend(conn, user_id: str, action: str, amount: int) -> None:
-    used = conn.execute(
-        "SELECT COALESCE(SUM(credits), 0) AS s FROM usage "
-        "WHERE user_id = ? AND ts >= datetime('now', 'start of month')",
-        (user_id,),
-    ).fetchone()["s"]
-    allowance = conn.execute(
-        "SELECT monthly_tokens AS t FROM users WHERE user_id = ?", (user_id,)
-    ).fetchone()["t"]
-    if used + amount > allowance:
-        raise HTTPException(402, f"Monthly quota exceeded: {used}/{allowance} this month")
-
     cur = conn.execute(
         "UPDATE users SET credits = credits - ? WHERE user_id = ? AND credits >= ?",
         (amount, user_id, amount),
@@ -174,15 +163,11 @@ def usage(caller: dict = Depends(require_key)):
         "WHERE user_id = ? AND ts >= datetime('now', 'start of month')",
         (uid,),
     ).fetchone()["s"]
-    allowance = conn.execute(
-        "SELECT monthly_tokens AS t FROM users WHERE user_id = ?", (uid,)
-    ).fetchone()["t"]
     credits = conn.execute(
         "SELECT credits AS b FROM users WHERE user_id = ?", (uid,)
     ).fetchone()["b"]
     conn.close()
-    return {"user_id": uid, "monthly_used": used,
-            "monthly_allowance": allowance, "credits": credits}
+    return {"user_id": uid, "monthly_used": used, "credits": credits}
 
 
 @app.post("/v1/credits/topup")
