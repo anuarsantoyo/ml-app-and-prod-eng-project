@@ -5,11 +5,13 @@ split -> compare 3 models with hyperparameter tuning -> save the best to joblib.
 
 Run with the ML interpreter:   /usr/bin/python3 ml/train_model.py
 """
+import os
+import sqlite3
+
 import numpy as np
 import pandas as pd
 import joblib
 
-from sklearn.datasets import fetch_openml
 from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
@@ -23,14 +25,15 @@ RANDOM_STATE = 42
 TEST_SIZE = 0.2
 
 
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "ames.db")
+
+
 def load_ames():
-    bunch = fetch_openml("house_prices", as_frame=True, parser="auto")
-    X = bunch.data
-    y = bunch.target
-    if "Id" in X.columns:
-        X = X.drop(columns=["Id"])
-    if isinstance(y, pd.DataFrame):
-        y = y.iloc[:, 0]
+    conn = sqlite3.connect(DB_PATH)
+    df = pd.read_sql_query("SELECT * FROM houses", conn)
+    conn.close()
+    y = df["SalePrice"]
+    X = df.drop(columns=["SalePrice"])
     return X, y
 
 
